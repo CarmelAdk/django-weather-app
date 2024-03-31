@@ -40,7 +40,7 @@ def get_city_weather(city):
 def index(request):
     return render(request, 'weather/index.html')
 
-
+@login_required(login_url="login")
 def cities_list(request):
     weather_data = []
     user = request.user
@@ -53,6 +53,7 @@ def cities_list(request):
     context = {'weather_data' : weather_data}
     return render(request, 'weather/cities_list.html', context)
 
+@login_required(login_url="login")
 def add_city(request):
     if request.method == "POST":
         form = CityForm(request.POST, user=request.user)
@@ -72,7 +73,7 @@ def add_city(request):
         'form': form,
     })
 
-
+@login_required(login_url="login")
 def edit_city(request, pk):
     city = get_object_or_404(City, pk=pk)
     if request.method == "POST":
@@ -94,6 +95,7 @@ def edit_city(request, pk):
         'city': city,
     })
 
+@login_required(login_url="login")
 def remove_city(request, pk):
     city = get_object_or_404(City, pk=pk)
     city.delete()
@@ -149,7 +151,7 @@ def login(request):
 
     return render(request, 'weather/login.html', context=context)
 
-
+@login_required(login_url="login")
 def logout(request):
 
     auth.logout(request)
