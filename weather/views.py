@@ -49,7 +49,7 @@ def add_city(request):
                 headers={
                     'HX-Trigger': json.dumps({
                         "cityListChanged": None,
-                        "showMessage": f"{city.name} added."
+                        "showMessage": f"{city.name} ajouté."
                     })
                 })
     else:
@@ -70,7 +70,7 @@ def edit_city(request, pk):
                 headers={
                     'HX-Trigger': json.dumps({
                         "cityListChanged": None,
-                        "showMessage": f"{city.name} updated."
+                        "showMessage": f"Mise à jour réussie."
                     })
                 })
     else:
@@ -88,6 +88,6 @@ def remove_city(request, pk):
         headers={
             'HX-Trigger': json.dumps({
                 "cityListChanged": None,
-                "showMessage": f"{city.name} removed."
+                "showMessage": f"{city.name} supprimé."
             })
         })
