@@ -77,19 +77,20 @@ def add_city(request):
 def edit_city(request, pk):
     city = get_object_or_404(City, pk=pk)
     if request.method == "POST":
-        form = CityForm(request.POST, instance=city)
+        form = CityForm(request.POST, instance=city, user=request.user)
         if form.is_valid():
-            city = form.save()
-            return HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "cityListChanged": None,
-                        "showMessage": f"Mise à jour réussie."
+            if request.user == city.user:
+                city = form.save()
+                return HttpResponse(
+                    status=204,
+                    headers={
+                        'HX-Trigger': json.dumps({
+                            "cityListChanged": None,
+                            "showMessage": f"Mise à jour réussie."
+                        })
                     })
-                })
     else:
-        form = CityForm(instance=city)
+        form = CityForm(instance=city, user=request.user)
     return render(request, 'weather/city_form.html', {
         'form': form,
         'city': city,
@@ -98,15 +99,16 @@ def edit_city(request, pk):
 @login_required(login_url="login")
 def remove_city(request, pk):
     city = get_object_or_404(City, pk=pk)
-    city.delete()
-    return HttpResponse(
-        status=204,
-        headers={
-            'HX-Trigger': json.dumps({
-                "cityListChanged": None,
-                "showMessage": f"{city.name} supprimé."
+    if request.user == city.user:
+        city.delete()
+        return HttpResponse(
+            status=204,
+            headers={
+                'HX-Trigger': json.dumps({
+                    "cityListChanged": None,
+                    "showMessage": f"{city.name} supprimé."
+                })
             })
-        })
 
 def register(request):
     form = CreateUserForm()
