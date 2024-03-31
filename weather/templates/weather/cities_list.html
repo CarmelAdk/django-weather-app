@@ -1,3 +1,4 @@
+{% load static %}
 {% for weather in weather_data %}
 <div class="card mb-3" id="city-{{ weather.city_id }}">
     <div class="row g-0">
@@ -8,12 +9,16 @@
             <div class="card-body">
                 <h5 class="card-title">{{ weather.city }}</h5>
                 <p class="card-text">{{ weather.temperature }}° C<br>{{ weather.description }}</p>
-                <div class="position-absolute top-0 end-0 p-2">
-                    <i class="fas fa-pencil-alt"></i>
-                </div>
             </div>
-            <!-- <button class="btn btn-primary btn-sm" hx-get="{% url 'edit_city' pk=weather.city_id %}" hx-target="#dialog">Edit</button> -->
         </div>
+    </div>
+    <div class="position-absolute top-0 end-0 right-0 p-2">
+        <button class="btn rounded btn-sm" 
+            hx-get="{% url 'edit_city' pk=weather.city_id %}" 
+            hx-target="#dialog"
+        >
+            <img src="{% static "pencil-svgrepo-com.svg" %}" alt="Pencil icon">
+        </button>
     </div>
 </div>
 {% endfor %}
