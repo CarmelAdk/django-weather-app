@@ -18,7 +18,7 @@
     </header>
     <section class="pt-5 pb-3">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-start">
                 <div class="col-lg-4 col-md-6">
                     <button hx-get="{% url 'add_city' %}" hx-target="#dialog" class="btn btn-primary p-2">
                         Ajouter une ville
@@ -30,7 +30,7 @@
     <section class="py-2">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6" 
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3" 
                     hx-trigger="load, cityListChanged from:body" hx-get="{% url 'cities_list' %}" 
                     hx-target="this"
                 >
