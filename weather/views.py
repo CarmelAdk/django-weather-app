@@ -8,7 +8,7 @@ def get_city_weather(city):
     response = requests.get(url.format(city)).json()
     if response['cod'] != 200:
         return None
-        
+
     city_weather = {
         'city': city,
         'temperature': response['main']['temp'],
@@ -22,6 +22,11 @@ def index(request):
         form = CityForm(request.POST)
         form.save()
 
+    context = {'form' : CityForm()}
+    return render(request, 'weather/index.html', context)
+
+
+def cities_list(request):
     weather_data = []
     cities = City.objects.all()
 
@@ -29,6 +34,6 @@ def index(request):
         city_weather = get_city_weather(city)
         weather_data.append(city_weather) 
     
-    context = {'weather_data' : weather_data, 'form' : CityForm()}
+    context = {'weather_data' : weather_data}
+    return render(request, 'weather/cities_list.html', context)
 
-    return render(request, 'weather/index.html', context)

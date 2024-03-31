@@ -1,0 +1,15 @@
+{% for weather in weather_data %}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Weather Icon" class="img-fluid">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ weather.city }}</h5>
+                <p class="card-text">{{ weather.temperature }}° C<br>{{ weather.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
