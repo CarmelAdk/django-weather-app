@@ -43,7 +43,8 @@ def index(request):
 
 def cities_list(request):
     weather_data = []
-    cities = City.objects.all()
+    user = request.user
+    cities = user.city_set.all()
 
     for city in cities:
         city_weather = get_city_weather(city)
@@ -54,7 +55,7 @@ def cities_list(request):
 
 def add_city(request):
     if request.method == "POST":
-        form = CityForm(request.POST)
+        form = CityForm(request.POST, user=request.user)
         if form.is_valid():
             city = form.save()
             return HttpResponse(
@@ -66,7 +67,7 @@ def add_city(request):
                     })
                 })
     else:
-        form = CityForm()
+        form = CityForm(user=request.user)
     return render(request, 'weather/city_form.html', {
         'form': form,
     })

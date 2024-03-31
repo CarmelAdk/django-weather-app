@@ -1,4 +1,5 @@
 {% load static %}
+{% if weather_data %}
 {% for weather in weather_data %}
 <div class="col mb-4">
     <div class="card mb-3" id="city-{{ weather.city_id }}">
@@ -24,3 +25,8 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+<div style="font-style: italic;">
+    Aucune ville n'a été ajoutée.
+</div>
+{% endif %}
