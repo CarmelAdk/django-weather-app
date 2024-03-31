@@ -1,3 +1,4 @@
+import locale
 import json
 from django.shortcuts import render
 import requests
@@ -18,6 +19,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 
+locale.setlocale(locale.LC_NUMERIC, 'fr_FR.utf-8') 
+
 def get_city_weather(city):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&lang=fr&appid=ae3be71be8d31a5c9468dad29db0653e'
     response = requests.get(url.format(city)).json()
@@ -27,7 +30,7 @@ def get_city_weather(city):
     city_weather = {
         'city_id' : city.id,
         'city': city.name,
-        'temperature': response['main']['temp'],
+        'temperature': locale.format("%.2f", response['main']['temp'], grouping=True),
         'description': response['weather'][0]['description'].capitalize(),
         'icon': response['weather'][0]['icon'],
     }
