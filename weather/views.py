@@ -6,6 +6,9 @@ from .forms import CityForm
 def get_city_weather(city):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&lang=fr&appid=ae3be71be8d31a5c9468dad29db0653e'
     response = requests.get(url.format(city)).json()
+    if response['cod'] != 200:
+        return None
+        
     city_weather = {
         'city': city,
         'temperature': response['main']['temp'],
