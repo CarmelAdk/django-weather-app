@@ -1,5 +1,11 @@
+import json
 from django.shortcuts import render
 import requests
+
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
+
 from .models import City
 from .forms import CityForm
 
@@ -18,12 +24,7 @@ def get_city_weather(city):
     return city_weather
 
 def index(request):
-    if request.method == 'POST':
-        form = CityForm(request.POST)
-        form.save()
-
-    context = {'form' : CityForm()}
-    return render(request, 'weather/index.html', context)
+    return render(request, 'weather/index.html')
 
 
 def cities_list(request):
@@ -37,3 +38,21 @@ def cities_list(request):
     context = {'weather_data' : weather_data}
     return render(request, 'weather/cities_list.html', context)
 
+def add_city(request):
+    if request.method == "POST":
+        form = CityForm(request.POST)
+        if form.is_valid():
+            city = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "cityListChanged": None,
+                        "showMessage": f"{city.name} added."
+                    })
+                })
+    else:
+        form = CityForm()
+    return render(request, 'weather/city_form.html', {
+        'form': form,
+    })

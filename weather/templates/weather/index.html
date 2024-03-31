@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,13 +20,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            {{ form.name }}
-                            <button class="btn btn-primary p-2" type="submit">Ajouter une ville</button>
-                        </div>
-                    </form>
+                    <button hx-get="{% url 'add_city' %}" hx-target="#dialog" class="btn btn-primary p-2">
+                        Ajouter une ville
+                    </button>
                 </div>
             </div>
         </div>
@@ -48,8 +45,13 @@
         Powered by Carmel Adikin.
     </footer>
 
-    
+    <!-- Placeholder for the modal -->
+    <div id="modal" class="modal fade">
+        <div id="dialog" class="modal-dialog" hx-target="this"></div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+    <script src="{% static "dialog.js" %}"></script>
 </body>
 </html>

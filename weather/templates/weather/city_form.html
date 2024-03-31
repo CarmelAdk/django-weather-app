@@ -1,0 +1,26 @@
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Changer la ville</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3">
+        <label for="{{ form.title.id_for_label }}" class="form-label">Nom</label>
+        {{ form.name }}
+        <div class="invalid-feedback">{{ form.title.errors|first }}</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      {% if city %}
+      <button type="button" class="btn btn-danger" hx-post="{% url 'remove_city' pk=city.pk %}">Supprimer</button>
+      <span class="flex-grow-1"></span>
+      {% endif %}
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        Annuler
+      </button>
+      <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </div>
+  </form>
+{% endwith %}
