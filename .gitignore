@@ -1,0 +1,8 @@
+*.sqlite3
+**/__pycache__/
+
+poll/__pycache__/
+polls/__pycache__/
+
+**/migrations/*.py
+**/migrations/*.pyc
