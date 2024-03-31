@@ -4,10 +4,19 @@ import requests
 
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 
 from .models import City
 from .forms import CityForm
+
+from . forms import CreateUserForm, LoginForm
+
+from django.contrib.auth.decorators import login_required
+
+# - Authentication models and functions
+
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate, login, logout
 
 def get_city_weather(city):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&lang=fr&appid=ae3be71be8d31a5c9468dad29db0653e'
@@ -24,6 +33,7 @@ def get_city_weather(city):
     }
     return city_weather
 
+@login_required(login_url="login")
 def index(request):
     return render(request, 'weather/index.html')
 
@@ -91,3 +101,59 @@ def remove_city(request, pk):
                 "showMessage": f"{city.name} supprimé."
             })
         })
+
+def register(request):
+    form = CreateUserForm()
+
+    if request.method == "POST":
+
+        form = CreateUserForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+
+
+    context = {'registerform':form}
+
+    return render(request, 'weather/register.html', context=context)
+
+
+
+def login(request):
+
+    form = LoginForm()
+
+    if request.method == 'POST':
+
+        form = LoginForm(request, data=request.POST)
+
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+
+                auth.login(request, user)
+
+                return redirect("index")
+
+
+    context = {'loginform':form}
+
+    return render(request, 'weather/login.html', context=context)
+
+
+def logout(request):
+
+    auth.logout(request)
+    return redirect("")
+
+
+
+
+
+
+
