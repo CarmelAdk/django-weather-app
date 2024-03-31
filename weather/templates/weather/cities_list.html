@@ -1,5 +1,5 @@
 {% for weather in weather_data %}
-<div class="card mb-3" id="city-{{ city.pk }}">
+<div class="card mb-3" id="city-{{ weather.city_id }}">
     <div class="row g-0">
         <div class="col-md-4">
             <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Weather Icon" class="img-fluid">
@@ -9,6 +9,7 @@
                 <h5 class="card-title">{{ weather.city }}</h5>
                 <p class="card-text">{{ weather.temperature }}° C<br>{{ weather.description }}</p>
             </div>
+            <button class="btn btn-primary btn-sm" hx-get="{% url 'edit_city' pk=weather.city_id %}" hx-target="#dialog">Edit</button>
         </div>
     </div>
 </div>

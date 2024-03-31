@@ -16,7 +16,8 @@ def get_city_weather(city):
         return None
 
     city_weather = {
-        'city': city,
+        'city_id' : city.id,
+        'city': city.name,
         'temperature': response['main']['temp'],
         'description': response['weather'][0]['description'].capitalize(),
         'icon': response['weather'][0]['icon'],
@@ -53,6 +54,27 @@ def add_city(request):
                 })
     else:
         form = CityForm()
+    return render(request, 'weather/city_form.html', {
+        'form': form,
+    })
+
+
+def edit_city(request, pk):
+    city = get_object_or_404(City, pk=pk)
+    if request.method == "POST":
+        form = CityForm(request.POST, instance=city)
+        if form.is_valid():
+            city = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "cityListChanged": None,
+                        "showMessage": f"{city.name} updated."
+                    })
+                })
+    else:
+        form = CityForm(instance=city)
     return render(request, 'weather/city_form.html', {
         'form': form,
     })
