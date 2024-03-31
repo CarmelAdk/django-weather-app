@@ -25,11 +25,11 @@
                         {% csrf_token %}
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                                <input type="text" class="input" placeholder="Nom de la ville">
+                                {{ form.name }}
                             </div>
                             <div class="control">
                                 <button class="button is-info">
-                                    Ajouter la ville
+                                    Ajouter une ville
                                 </button>
                             </div>
                         </div>
