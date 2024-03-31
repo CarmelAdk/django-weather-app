@@ -77,4 +77,17 @@ def edit_city(request, pk):
         form = CityForm(instance=city)
     return render(request, 'weather/city_form.html', {
         'form': form,
+        'city': city,
     })
+
+def remove_city(request, pk):
+    city = get_object_or_404(City, pk=pk)
+    city.delete()
+    return HttpResponse(
+        status=204,
+        headers={
+            'HX-Trigger': json.dumps({
+                "cityListChanged": None,
+                "showMessage": f"{city.name} removed."
+            })
+        })
