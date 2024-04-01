@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from django import forms
 
-from django.forms.widgets import PasswordInput, TextInput
+from django.forms.widgets import PasswordInput, EmailInput, TextInput
 
 
 class CityForm(ModelForm):
@@ -32,12 +32,17 @@ class CityForm(ModelForm):
 class CreateUserForm(UserCreationForm):
 
     class Meta:
-
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+        widgets = {
+            'username': TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Nom d\'utilisateur'}),
+            'email': EmailInput(attrs={'class' : 'form-control', 'placeholder' : 'Email'}),
+        }
+    
+    password1 =forms.CharField(widget=PasswordInput(attrs={'class' : 'form-control', 'placeholder' : 'Mot de passe'}))
+    password2 =forms.CharField(widget=PasswordInput(attrs={'class' : 'form-control', 'placeholder' : 'Confirmer le mot de passe'}))
 
 
 class LoginForm(AuthenticationForm):
-
-    username = forms.CharField(widget=TextInput())
-    password = forms.CharField(widget=PasswordInput())
+    username = forms.CharField(widget=TextInput(attrs={'class' : 'form-control', 'placeholder' : 'Nom d\'utilisateur'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'class' : 'form-control', 'placeholder' : 'Mot de passe'}))

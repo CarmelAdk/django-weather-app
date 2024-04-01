@@ -1,16 +1,52 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
 
-    <h1> Se connecter </h1>
+<div class="container" style="height: 100vh" >
+    <div class="row center">
+        <div class="col-md-6">
+            <h1 class="text-center">Se connecter</h1>
 
-    <form method="POST" autocomplete="off">
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                {% for field in loginform %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <input type="submit" class="btn btn-primary d-block mx-auto" value="Se connecter"/>
+            </form>
+        </div>
+    </div>
 
-        {% csrf_token %}
+    <div class="row mt-3">
+        <div class="col text-center">
+            <p>Vous n'avez pas de compte ? <a class="text-decoration-none" href="{% url 'register' %}">S'inscrire</a></p>
+        </div>
+    </div>
+</div>
 
-        {{loginform.as_p}}
-
-        <input type="submit" value="Se connecter"/>
-
-
-    </form>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

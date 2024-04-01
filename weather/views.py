@@ -38,7 +38,9 @@ def get_city_weather(city):
 
 @login_required(login_url="login")
 def index(request):
-    return render(request, 'weather/index.html')
+    return render(request, 'weather/index.html', context = {
+        'user' : request.user
+    })
 
 @login_required(login_url="login")
 def cities_list(request):
