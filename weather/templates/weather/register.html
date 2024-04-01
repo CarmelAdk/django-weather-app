@@ -11,6 +11,9 @@
             justify-content: center;
             align-items: center;
         }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +45,7 @@
 
     <div class="row mt-3">
         <div class="col text-center">
-            <p>Vous avez déjà un compte ? <a class="text-decoration-none"  href="{% url 'login' %}">Se connecter</a></p>
+            <p>Vous avez déjà un compte ? <a class="text-decoration-none"  href="{% url 'login' %}" >Se connecter</a></p>
         </div>
     </div>
 </div>
