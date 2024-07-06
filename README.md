@@ -1,4 +1,4 @@
-# Project Name
+# Weather App
 
 ## Description
 This project is a web application developed with Django. With it, you can add cities and consult the weather in these cities in real time. It uses Sqlite database.
